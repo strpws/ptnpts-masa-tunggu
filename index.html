@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lama Tunggu Lulusan PTN &amp; PTS Mendapat Kerja</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --blue:       #00559A;
+  --blue-pale:  #EBF2FA;
+  --blue-deep:  #004A88;
+  --gold:       #DBAA00;
+  --gold-pale:  #FEF6D8;
+  --gold-deep:  #9A7800;
+  --black:      #222222;
+  --grey-dk:    #333333;
+  --grey-md:    #666666;
+  --grey-lt:    #999999;
+  --border:     #DDDDDD;
+  --surface:    #F4F4F4;
+  --row-hover:  #F5F8FC;
+  --white:      #FFFFFF;
+}
+
+body {
+  font-family: 'PT Sans', ui-sans-serif, system-ui, sans-serif;
+  background: var(--surface);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 32px 16px;
+}
+
+/* ── Card ── */
+.card {
+  width: 100%;
+  max-width: 460px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+  animation: cardIn 0.35s ease both;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card-accent {
+  height: 3px;
+  background: var(--blue);
+}
+
+.card-body {
+  padding: 20px 22px 16px;
+}
+
+/* ── Header ── */
+.title {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--black);
+  line-height: 1.33;
+  margin-bottom: 5px;
+}
+
+.deck {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 12px;
+  color: var(--grey-md);
+  line-height: 1.52;
+  margin-bottom: 13px;
+}
+
+/* ── Legend ── */
+.legend {
+  display: flex;
+  gap: 14px;
+  padding: 7px 0;
+  margin-bottom: 5px;
+  border-top: 1px solid var(--surface);
+  border-bottom: 1px solid var(--surface);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--grey-dk);
+}
+
+.legend-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Chart ── */
+.chart {
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-row {
+  position: relative;
+  padding: 9px 5px;
+  border-radius: 4px;
+  transition: background 0.13s ease;
+  cursor: default;
+}
+
+.chart-row + .chart-row {
+  border-top: 1px solid #EFEFEF;
+}
+
+.chart-row:hover {
+  background: var(--row-hover);
+}
+
+.row-label {
+  font-family: 'PT Sans', sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--grey-dk);
+  margin-bottom: 6px;
+  padding-right: 60px;
+  line-height: 1.2;
+}
+
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bar-line {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.bar-tag {
+  width: 24px;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--grey-lt);
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.bar-track {
+  flex: 1;
+  height: 13px;
+  background: var(--surface);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  border-radius: 2px;
+  transition: width 0.82s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bar-fill--ptn { background: var(--blue); }
+.bar-fill--pts { background: var(--gold); }
+
+.chart-row:hover .bar-fill--ptn { background: #0062B1; }
+.chart-row:hover .bar-fill--pts { background: #E8B500; }
+
+.bar-val {
+  width: 34px;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.bar-val--ptn { color: var(--blue); }
+.bar-val--pts { color: var(--gold-deep); }
+
+/* ── Diff pill: appears on hover ── */
+.diff-pill {
+  position: absolute;
+  top: 9px;
+  right: 5px;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.88);
+  transition: opacity 0.14s ease, transform 0.14s ease;
+}
+
+.chart-row:hover .diff-pill {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.diff-pill--pts { background: var(--gold-pale); color: var(--gold-deep); }
+.diff-pill--ptn { background: var(--blue-pale); color: var(--blue-deep); }
+
+/* ── Footer ── */
+.card-footer {
+  margin-top: 13px;
+  padding-top: 9px;
+  border-top: 1px solid var(--border);
+}
+
+.source-note {
+  font-family: 'PT Sans', sans-serif;
+  font-size: 9px;
+  color: var(--grey-lt);
+  line-height: 1.45;
+}
+
+.source-note strong {
+  color: var(--grey-md);
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card { animation: none; }
+  .bar-fill { transition: none; }
+  .diff-pill { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<article class="card" id="infographic">
+  <div class="card-body">
+
+
+    <h2 class="title">Lama Tunggu Lulusan PTN dan PTS Mendapat Kerja</h2>
+    <p class="deck">Persentase lulusan S1 usia 20–25 tahun berdasarkan lama waktu tunggu pekerjaan formal pertama setelah lulus</p>
+
+    <div class="legend" aria-hidden="true">
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:#00559A"></div>
+        PTN
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:#DBAA00"></div>
+        PTS
+      </div>
+    </div>
+
+    <div class="chart" id="chart" role="list"></div>
+
+    <div class="card-footer">
+      <p class="source-note"><strong>Sumber:</strong> Survei Angkatan Kerja Nasional (Sakernas), BPS, Februari 2025</p>
+    </div>
+
+  </div>
+</article>
+
+<script>
+(function () {
+  var data = [
+    { label: 'Kurang dari 1 bulan', ptn: 19.2, pts: 21.0 },
+    { label: '2–3 bulan',           ptn: 28.7, pts: 34.7 },
+    { label: '4–6 bulan',           ptn: 13.4, pts: 14.0 },
+    { label: '6–12 bulan',          ptn: 17.9, pts: 19.5 },
+    { label: '12–24 bulan',         ptn: 14.9, pts:  8.5 },
+    { label: 'Di atas 24 bulan',    ptn:  5.9, pts:  2.3 },
+  ];
+
+  /* Scale ceiling — just above the peak value (34.7%) */
+  var MAX = 37;
+  var chart = document.getElementById('chart');
+
+  data.forEach(function (d) {
+    var ptnW    = (d.ptn / MAX * 100).toFixed(2);
+    var ptsW    = (d.pts / MAX * 100).toFixed(2);
+    var diff    = d.pts - d.ptn;
+    var abs     = Math.abs(diff).toFixed(1);
+    var ptsWins = diff >= 0;
+    var diffLabel = ptsWins
+      ? 'PTS ‫+' + abs + ' pp'
+      : 'PTN +' + abs + ' pp';
+    var pillClass = ptsWins ? 'diff-pill--pts' : 'diff-pill--ptn';
+
+    var row = document.createElement('div');
+    row.className = 'chart-row';
+    row.setAttribute('role', 'listitem');
+    row.setAttribute('aria-label',
+      d.label + ': PTN ' + d.ptn + '%, PTS ' + d.pts + '%');
+
+    row.innerHTML =
+      '<span class="diff-pill ' + pillClass + '" aria-hidden="true">' + diffLabel + '</span>' +
+      '<div class="row-label">' + d.label + '</div>' +
+      '<div class="bars" aria-hidden="true">' +
+        '<div class="bar-line">' +
+          '<span class="bar-tag">PTN</span>' +
+          '<div class="bar-track">' +
+            '<div class="bar-fill bar-fill--ptn" data-w="' + ptnW + '"></div>' +
+          '</div>' +
+          '<span class="bar-val bar-val--ptn">' + d.ptn.toFixed(1) + '%</span>' +
+        '</div>' +
+        '<div class="bar-line">' +
+          '<span class="bar-tag">PTS</span>' +
+          '<div class="bar-track">' +
+            '<div class="bar-fill bar-fill--pts" data-w="' + ptsW + '"></div>' +
+          '</div>' +
+          '<span class="bar-val bar-val--pts">' + d.pts.toFixed(1) + '%</span>' +
+        '</div>' +
+      '</div>';
+
+    chart.appendChild(row);
+  });
+
+  /* Staggered bar animation — fires when card enters viewport */
+  var animated = false;
+
+  function animateBars() {
+    if (animated) return;
+    animated = true;
+    var rows = chart.querySelectorAll('.chart-row');
+    rows.forEach(function (row, i) {
+      var fills = row.querySelectorAll('.bar-fill');
+      setTimeout(function () {
+        fills.forEach(function (f) { f.style.width = f.dataset.w + '%'; });
+      }, 100 + i * 95);
+    });
+  }
+
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        animateBars();
+        obs.disconnect();
+      }
+    }, { threshold: 0.2 });
+    obs.observe(document.getElementById('infographic'));
+  } else {
+    setTimeout(animateBars, 250);
+  }
+}());
+</script>
+
+</body>
+</html>
